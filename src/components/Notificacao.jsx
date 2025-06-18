@@ -27,12 +27,12 @@ export default function Notificacao({ msg, valid }) {
     if (!isValid) { return null }
 
     return (
-        <div className="fundo-notificacao">
-            <div className='notificacao'>
-                <span><i class="fa-solid fa-triangle-exclamation"></i></span>
-                <p>{msg}</p>
-            </div>
+
+        <div className='notificacao'>
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <p>{msg}</p>
         </div>
+
     )
 
 }

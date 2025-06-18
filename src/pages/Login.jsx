@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 /**
  * Import de Components
  * @components
  */
 import Notificacao from '../components/Notificacao';
-
+import Header from '../components/Header';
 
 /**
  * Import de Arquivos CSS
@@ -58,6 +59,7 @@ export default function Login() {
 
   return (
     <>
+      <Header />
       <section className="login-section">
         <div className="login-container">
           <h1>Login</h1>
@@ -70,8 +72,9 @@ export default function Login() {
 
             <button type="submit">Entrar</button>
           </form>
+          <p>Não possui uma conta? <Link to="/registrar">Registre-se aqui</Link></p>
         </div>
-        {msg != '' ? < Notificacao msg={msg} valid={true}/> : < Notificacao msg={msg} valid={false}/> }
+        {msg != '' ? < Notificacao msg={msg} valid={true} /> : < Notificacao msg={msg} valid={false} />}
       </section>
       <div>
       </div>

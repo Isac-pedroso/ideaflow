@@ -9,6 +9,9 @@
 }
 
 .notificacao {
+    position: fixed;
+    top: 90px;
+    right: 20px;
     animation-name: modal;
     animation-duration: 1s;
     font-family: Arial, sans-serif;
