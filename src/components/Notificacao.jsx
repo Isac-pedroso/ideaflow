@@ -21,7 +21,7 @@ export default function Notificacao({ msg, valid }) {
 
             return () => clearTimeout(timer);
         }
-    }, [msg]);
+    }, [valid]);
 
 
     if (!isValid) { return null }

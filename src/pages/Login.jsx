@@ -27,6 +27,7 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [msg, setMsg] = useState("");
   const [tp_user, setTpUser] = useState(2);
+  const [valid, setValid] = useState(false);
   const inputRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
 
 
@@ -48,10 +49,36 @@ export default function Login() {
     e.preventDefault();
 
     if (validaInputs()) {
-      return;
+      return false;
+    }
+
+    // Valida o login com base nos campos passados
+    if(!validaLogin()){
+      return false;
     }
 
   }
+
+
+  /**
+   * Valida o login do investidor/empresa
+   * Valida os inputs com base no banco de dados
+   * @returns
+   */
+  const validaLogin = ()=>{
+    setValid(false);
+
+    // Faz a chamada do BD para validação do login
+
+    setTimeout(()=> setValid(true));
+    setMsg("Email ou senha incorretos!");
+
+    // Sempre retorna que deu problema no login
+    // FALSE
+    return false;
+  }
+
+
 
 
   /**
@@ -59,19 +86,26 @@ export default function Login() {
    * @returns 
    */
   const validaInputs = () => {
-    setMsg("");
+    setMsg('');
+    setValid(false);
+
     if (email === "" && tp_user === 2) {
-      setMsg("Campo email vazio!");
+      setMsg("Email ou senha incorretos!");
+      setTimeout(() => setValid(true), 10);
       return true;
     }
     if (cnpj === "" && tp_user === 1) {
-      setMsg("Campo cnpj vazio!");
+      setMsg("CNPJ ou senha incorretos!");
+      setTimeout(() => setValid(true), 10);
       return true;
     }
-    if (senha === "") {
-      setMsg("Campo senha vazio!");
+    if(senha === ""){
+      tp_user === 1 ? setMsg("CNPJ ou senha incorretos!") : setMsg("Email ou senha incorretos!");
+      setTimeout(() => setValid(true), 10);
       return true;
     }
+
+    return false;
   }
 
 
@@ -109,7 +143,7 @@ export default function Login() {
             }
           <p>Não possui uma conta? <Link to="/registrar">Registre-se aqui</Link></p>
         </div>
-        {msg != '' ? < Notificacao msg={msg} valid={true} /> : < Notificacao msg={msg} valid={false} />}
+        {msg != '' ? < Notificacao msg={msg} valid={valid} /> : < Notificacao msg={msg} valid={valid} />}
       </section>
       <div>
       </div>
