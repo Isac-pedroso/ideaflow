@@ -1,0 +1,19 @@
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  seguranca:
+    segredo: "chave de acesso"
+    tempo_validade: 5
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgress
+    password: trust
+    username: postgres
+    driverClassName: org.postgresql.Driver
