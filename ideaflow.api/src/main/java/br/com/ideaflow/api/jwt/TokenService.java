@@ -1,0 +1,61 @@
+package br.com.ideaflow.api.jwt;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+
+import br.com.ideaflow.api.models.Usuarios;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
+import static org.springframework.security.config.Elements.JWT;
+
+@Service
+public class TokenService {
+    @Value("${spring.seguranca.segredo}")
+    private String secret;
+
+    @Value("${spring.seguranca.tempo_validade}")
+    private Long expirationTime;
+
+    public String gerarToken(Usuarios usuario) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        String token = JWT.create()
+                .withIssuer("exemplo-api-token")
+                .withSubject(usuario.getEmail())
+                .withExpiresAt(this.gerarDataValidadeToken())
+                .sign(algorithm);
+
+        return token;
+    }
+
+    public String validarToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        try {
+            return JWT.require(algorithm)
+                    .withIssuer("exemplo-api-token")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException e) {
+            return null;
+        }
+    }
+
+    private Instant gerarDataValidadeToken() {
+        return LocalDateTime
+                .now()
+                .plusMinutes(1)
+                .toInstant(ZoneOffset.of("-03:00"));
+    }
+
+}

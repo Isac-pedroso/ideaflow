@@ -6,6 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class UsuariosRequesty {
@@ -14,9 +15,9 @@ public class UsuariosRequesty {
     private String senha;
     private String email;
     private Date dt_nasc;
-    private LocalDate dt_cadastro;
+    private LocalDateTime dt_cadastro;
     private int ativo;
-    private LocalDate dt_desativacao;
+    private LocalDateTime dt_desativacao;
     private TipoUsuario tipoUsuario;
 
     public String getCnpj() {
@@ -59,11 +60,11 @@ public class UsuariosRequesty {
         this.dt_nasc = dt_nasc;
     }
 
-    public LocalDate getDt_cadastro() {
+    public LocalDateTime getDt_cadastro() {
         return dt_cadastro;
     }
 
-    public void setDt_cadastro(LocalDate dt_cadastro) {
+    public void setDt_cadastro(LocalDateTime dt_cadastro) {
         this.dt_cadastro = dt_cadastro;
     }
 
@@ -75,11 +76,11 @@ public class UsuariosRequesty {
         this.ativo = ativo;
     }
 
-    public LocalDate getDt_desativacao() {
+    public LocalDateTime getDt_desativacao() {
         return dt_desativacao;
     }
 
-    public void setDt_desativacao(LocalDate dt_desativacao) {
+    public void setDt_desativacao(LocalDateTime dt_desativacao) {
         this.dt_desativacao = dt_desativacao;
     }
 

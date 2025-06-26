@@ -7,11 +7,14 @@ import br.com.ideaflow.api.services.UsuariosServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/usuarios")
+@CrossOrigin
 public class UsuariosController {
 
     @Autowired
@@ -20,6 +23,7 @@ public class UsuariosController {
     @Autowired
     private UsuariosServices usuariosServices;
 
+    @PostMapping("/create")
     public ResponseEntity<Usuarios> cadastrar(@RequestBody UsuariosRequesty usuarios){
         try{
             return ResponseEntity.ok(usuariosServices.create(usuarios));
