@@ -1,9 +1,9 @@
 package br.com.ideaflow.api.config;
-
-
+import br.com.ideaflow.api.jwt.TokenService;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.repositorys.UsuariosRepository;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(usuarioResult.get(), null, null);
                 SecurityContextHolder.getContext().setAuthentication(autorizacao);
             } else {
-                throw new RuntimeException("Usuario não encontrado!");
+                throw new RuntimeException("Usuario não foi encontradona base de dados!");
             }
         }
 
@@ -44,12 +44,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     }
 
-
-    private String recuperarToken(HttpServletRequest request){
+    private String recuperarToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if(token == null) {return null; }
+        if(token == null) return null;
 
         return token.replace("Bearer ", "");
     }
-
 }

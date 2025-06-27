@@ -5,6 +5,7 @@ import br.com.ideaflow.api.controllers.dtos.UsuariosResponse;
 import br.com.ideaflow.api.models.TipoUsuario;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.repositorys.UsuariosRepository;
+import br.com.ideaflow.api.utils.ValidacoesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,27 +24,40 @@ public class UsuariosServices {
 
 
     public UsuariosResponse create(UsuariosRequesty usuariosRequesty) throws Exception{
-        Optional<Usuarios> response = usuariosRepository.findByEmail(usuariosRequesty.getEmail());
 
+        // Validação de campos
+        ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getCnpj(), "cnpj");
+        ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getEmail(), "email");
+        ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getNome(), "nome");
+        ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getSenha(), "senha");
+        if(usuariosRequesty.getTipoUsuario().getId() == 1 && usuariosRequesty.getDt_nasc() == null){
+            throw new RuntimeException("Preencha o campo data de nascimento!");
+        }
+
+
+        Optional<Usuarios> response = usuariosRepository.findByEmail(usuariosRequesty.getEmail());
         if(response.isPresent()){
             throw new Exception("Usuario já existente!");
         }
 
         LocalDateTime dataHoraAtual = LocalDateTime.now();
+
         TipoUsuario tp_usuario = new TipoUsuario();
         tp_usuario.setId(usuariosRequesty.getTipoUsuario().getId());
-        Usuarios usuarioPersist = new Usuarios();
-        usuarioPersist.setAtivo(1);
-        usuarioPersist.setCnpj(usuariosRequesty.getCnpj());
-        usuarioPersist.setNome(usuariosRequesty.getNome());
-        usuarioPersist.setDt_nasc(usuariosRequesty.getDt_nasc());
-        usuarioPersist.setSenha(passwordEncoder.encode(usuariosRequesty.getSenha()));
-        usuarioPersist.setDt_cadastro(dataHoraAtual);
-        usuarioPersist.setDt_desativacao(null);
-        usuarioPersist.setId(null);
-        usuarioPersist.setTipoUsuario(tp_usuario);
 
-        Usuarios persistResult = usuariosRepository.save(usuarioPersist);
+        Usuarios usuario = new Usuarios();
+        usuario.setAtivo(1);
+        usuario.setCnpj(usuariosRequesty.getCnpj());
+        usuario.setNome(usuariosRequesty.getNome());
+        usuario.setDt_nasc(usuariosRequesty.getDt_nasc());
+        usuario.setEmail(usuariosRequesty.getEmail());
+        usuario.setSenha(passwordEncoder.encode(usuariosRequesty.getSenha()));
+        usuario.setDt_cadastro(dataHoraAtual);
+        usuario.setDt_desativacao(null);
+        usuario.setId(null);
+        usuario.setTipoUsuario(tp_usuario);
+
+        Usuarios persistResult = usuariosRepository.save(usuario);
 
         UsuariosResponse retorno = new UsuariosResponse();
         retorno.setId(persistResult.getId());

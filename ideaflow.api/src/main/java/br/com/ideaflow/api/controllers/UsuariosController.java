@@ -1,20 +1,17 @@
 package br.com.ideaflow.api.controllers;
 
 import br.com.ideaflow.api.controllers.dtos.UsuariosRequesty;
+import br.com.ideaflow.api.controllers.dtos.UsuariosResponse;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.repositorys.UsuariosRepository;
 import br.com.ideaflow.api.services.UsuariosServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/usuarios")
-@CrossOrigin
 public class UsuariosController {
 
     @Autowired
@@ -23,13 +20,19 @@ public class UsuariosController {
     @Autowired
     private UsuariosServices usuariosServices;
 
-    @PostMapping("/create")
-    public ResponseEntity<Usuarios> cadastrar(@RequestBody UsuariosRequesty usuarios){
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> cadastrar(@RequestBody UsuariosRequesty usuarios){
         try{
             return ResponseEntity.ok(usuariosServices.create(usuarios));
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(null);
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @GetMapping("/test")
+    public String test() {
+        System.out.println(">>> CHAMOU /usuarios/test");
+        return "funcionando";
     }
 
 }
