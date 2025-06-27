@@ -17,7 +17,6 @@
     font-family: Arial, sans-serif;
     box-shadow: 0px 5px 10px 0px rgb(121, 121, 121);
     min-width: 250px;
-    width: 20%;
     height: 50px;
     padding: 2px;
     border: 1px solid rgb(122, 122, 122);
@@ -28,9 +27,7 @@
 }
 
 span {
-    margin-top: 15px;
-    margin-left: 9%;
-    width: 20px;
+    padding: 16px;
     float: left;
 }
 
@@ -38,6 +35,15 @@ p {
     float: left;
     font-size: 16px;
     font-weight: bold;
+    padding-right: 15px;
+}
+
+.danger{
+    color: red;
+}
+
+.success{
+    color: green;
 }
 
 @keyframes scaleIn {

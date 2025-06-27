@@ -7,11 +7,17 @@ import React, { useEffect, useState } from 'react'
 import '../assets/css/Notificacao.css';
 import '../assets/css/fontawesome-free-6.7.2-web/css/all.min.css';
 
-export default function Notificacao({ msg, valid }) {
+export default function Notificacao({ msg, valid, classeNomeProp, iconeProp }) {
 
     const [isValid, setIsvalid] = useState(false);
+    const [classNameNew, setClassNameNew] = useState("");
+    const [icone, setIcone] = useState("");
 
     useEffect(() => {
+
+        iconeProp != "" && setIcone("fa-solid fa-"+iconeProp);
+        // setClassNameNew(classeNomeProp);
+
         if (valid) {
             setIsvalid(true);
 
@@ -28,8 +34,8 @@ export default function Notificacao({ msg, valid }) {
 
     return (
 
-        <div className='notificacao'>
-            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+        <div className={`notificacao`}>
+            <span><i class={`${classeNomeProp} ${icone}`}></i></span>
             <p>{msg}</p>
         </div>
 

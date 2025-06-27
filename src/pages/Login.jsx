@@ -30,6 +30,9 @@ export default function Login() {
   const [valid, setValid] = useState(false);
   const inputRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
 
+  const [classeMsg, setClasseMsg] = useState("");
+  const [iconeMsg, setIconeMsg] = useState("");
+
 
 
   /**
@@ -53,7 +56,7 @@ export default function Login() {
     }
 
     // Valida o login com base nos campos passados
-    if(!validaLogin()){
+    if (!validaLogin()) {
       return false;
     }
 
@@ -65,14 +68,15 @@ export default function Login() {
    * Valida os inputs com base no banco de dados
    * @returns
    */
-  const validaLogin = ()=>{
+  const validaLogin = () => {
     setValid(false);
 
     // Faz a chamada do BD para validação do login
 
-    setTimeout(()=> setValid(true));
+    setTimeout(() => setValid(true));
     setMsg("Email ou senha incorretos!");
-
+    setClasseMsg("danger");
+    setIconeMsg("triangle-exclamation")
     // Sempre retorna que deu problema no login
     // FALSE
     return false;
@@ -88,18 +92,23 @@ export default function Login() {
   const validaInputs = () => {
     setMsg('');
     setValid(false);
-
     if (email === "" && tp_user === 2) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Email ou senha incorretos!");
       setTimeout(() => setValid(true), 10);
       return true;
     }
     if (cnpj === "" && tp_user === 1) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("CNPJ ou senha incorretos!");
       setTimeout(() => setValid(true), 10);
       return true;
     }
-    if(senha === ""){
+    if (senha === "") {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       tp_user === 1 ? setMsg("CNPJ ou senha incorretos!") : setMsg("Email ou senha incorretos!");
       setTimeout(() => setValid(true), 10);
       return true;
@@ -115,7 +124,7 @@ export default function Login() {
       <section className="login-section">
         <div className="login-container">
           <h1>Login</h1>
-          <select name="tp_user" className='select-tp-user' id="tp_user" value={tp_user} onChange={(e)=>{setTpUser(Number(e.target.value)); setSenha("")}}>
+          <select name="tp_user" className='select-tp-user' id="tp_user" value={tp_user} onChange={(e) => { setTpUser(Number(e.target.value)); setSenha("") }}>
             <option value={1} >Empresa</option>
             <option value={2} >Investidor</option>
           </select>
@@ -129,7 +138,7 @@ export default function Login() {
 
               <button type="submit">Entrar</button>
             </form>
-            }
+          }
           {tp_user == 2 &&
             <form onSubmit={handleLogin}>
               <label htmlFor="email">E-mail:</label>
@@ -140,10 +149,10 @@ export default function Login() {
 
               <button type="submit">Entrar</button>
             </form>
-            }
+          }
           <p>Não possui uma conta? <Link to="/registrar">Registre-se aqui</Link></p>
         </div>
-        {msg != '' ? < Notificacao msg={msg} valid={valid} /> : < Notificacao msg={msg} valid={valid} />}
+        {msg != '' ? < Notificacao msg={msg} valid={valid} classeNomeProp={classeMsg} iconeProp={iconeMsg} /> : < Notificacao msg={msg} valid={valid} classeNomeProp={classeMsg} iconeProp={iconeMsg} />}
       </section>
       <div>
       </div>

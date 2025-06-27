@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useMask } from '@react-input/mask';
 
 
@@ -28,10 +28,13 @@ export default function Registrar() {
 
   const [tp_user, setTpUser] = useState(2);
 
+  const [redirecionaLogin, setRedirecionaLogin] = useState(false);
   const [msg, setMsg] = useState("");
   const [valid, setValid] = useState(false);
   const inputRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
 
+  const [classeMsg, setClasseMsg] = useState("");
+  const [iconeMsg, setIconeMsg] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -43,6 +46,8 @@ export default function Registrar() {
     }
 
     if (senha != confirm_senha) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setTimeout(() => { setValid(true) });
       setMsg("Senhas devem ser iguais!");
       return false;
@@ -54,37 +59,47 @@ export default function Registrar() {
       email,
       dt_nascimento,
       senha,
-      tipoUsuario: {id:tp_user}
+      tipoUsuario: { id: tp_user }
     }
     console.log(dados)
 
     registrar("http://localhost:8080/usuarios/cadastrar", dados)
       .then(data => {
-        setTimeout(() => {setValid(true)});
-        setMsg(data);
+        setTimeout(() => { setValid(true) });
+        setMsg("Cadastro concluido com sucesso !");
+        setClasseMsg("success");
+        setIconeMsg("check")
+
+        setTimeout(() => {
+          setRedirecionaLogin(true);
+        }, 1000);
       })
   }
 
   const registrar = async (url, dados) => {
     setValid(false);
-    try{
+    try {
 
       const response = await fetch(url, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)
       });
 
-      const body = await response.json(); 
-      
-      if(!response.ok) throw new Error(body.message);
+      const body = await response.json();
+
+      if (!response.ok) throw new Error(body.message);
+
       return body;
-    }catch(error){
-      console.log(error.message)
-      setTimeout(() => {setValid(true)});
+
+    } catch (error) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
+      setTimeout(() => { setValid(true) });
       setMsg(error.message);
       throw error;
     }
+
 
     return true;
   }
@@ -96,29 +111,46 @@ export default function Registrar() {
     setValid(false);
 
     if (nome === "") {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Campo nome vazio!");
       return true;
     }
     if (dt_nascimento === "" && tp_user === 2) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Campo data de nascimento vazio!");
       return true;
     }
     if (email === "" && tp_user === 2) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Campo email vazio!");
       return true;
     }
     if (cnpj === "" && tp_user === 1) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Campo cnpj vazio!");
       return true;
     }
     if (senha === "") {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Campo senha vazio!");
       return true;
     }
     if (confirm_senha === "") {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
       setMsg("Confirme a senha!");
       return true;
     }
+  }
+
+
+  if (redirecionaLogin) {
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -156,7 +188,7 @@ export default function Registrar() {
           </form>
           <p>Já possui uma conta? <Link to="/login">Faça login aqui</Link></p>
         </div>
-        {msg != '' ? < Notificacao msg={msg} valid={valid} /> : < Notificacao msg={msg} valid={valid} />}
+        {msg != '' ? < Notificacao msg={msg} valid={valid} classeNomeProp={classeMsg} iconeProp={iconeMsg} /> : < Notificacao msg={msg} valid={valid} classeNomeProp={classeMsg} iconeProp={iconeMsg} />}
       </section>
     </>
   )
