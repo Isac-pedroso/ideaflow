@@ -26,7 +26,9 @@ public class UsuariosServices {
     public UsuariosResponse create(UsuariosRequesty usuariosRequesty) throws Exception{
 
         // Validação de campos
-        ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getCnpj(), "cnpj");
+        if(usuariosRequesty.getTipoUsuario().getId() == 1) {
+            ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getCnpj(), "cnpj");
+        }
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getEmail(), "email");
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getNome(), "nome");
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getSenha(), "senha");
