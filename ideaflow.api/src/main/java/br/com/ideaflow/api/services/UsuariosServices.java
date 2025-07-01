@@ -2,6 +2,7 @@ package br.com.ideaflow.api.services;
 
 import br.com.ideaflow.api.controllers.dtos.UsuariosRequesty;
 import br.com.ideaflow.api.controllers.dtos.UsuariosResponse;
+import br.com.ideaflow.api.jwt.TokenService;
 import br.com.ideaflow.api.models.TipoUsuario;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.repositorys.UsuariosRepository;
@@ -21,6 +22,9 @@ public class UsuariosServices {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenService tokenService;
 
 
     public UsuariosResponse create(UsuariosRequesty usuariosRequesty) throws Exception{
@@ -66,5 +70,28 @@ public class UsuariosServices {
         retorno.setEmail(persistResult.getEmail());
 
         return retorno;
+    }
+
+
+    public UsuariosResponse login(UsuariosRequesty usuario) throws Exception{
+        Optional<Usuarios> resultadoBusca = usuariosRepository.findByEmail(usuario.getEmail());
+
+        if(!resultadoBusca.isPresent()){
+            throw new Exception("Usuário ou senha incorreto!");
+        }
+
+        Usuarios bd = resultadoBusca.get();
+
+        if(passwordEncoder.matches(usuario.getSenha(), bd.getSenha())){
+            UsuariosResponse response = new UsuariosResponse();
+
+            response.setEmail(bd.getEmail());
+            response.setId(bd.getId());
+            response.setToken(tokenService.gerarToken(bd));
+
+            return response;
+        }
+
+        throw new Exception("Usuário ou senha incorreto!");
     }
 }

@@ -36,10 +36,17 @@ public class UsuariosController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    @GetMapping("/test")
-    public String test() {
-        System.out.println(">>> CHAMOU /usuarios/test");
-        return "funcionando";
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UsuariosRequesty usuario){
+        try{
+            return ResponseEntity.ok(usuariosServices.login(usuario));
+        }catch(Exception e){
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage().toString());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
     }
 
 }

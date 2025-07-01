@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useMask } from '@react-input/mask';
 
 
@@ -32,6 +32,7 @@ export default function Login() {
 
   const [classeMsg, setClasseMsg] = useState("");
   const [iconeMsg, setIconeMsg] = useState("");
+  const [redirecionaHome, setRedirecionaHome] = useState(false);
 
 
 
@@ -71,7 +72,25 @@ export default function Login() {
   const validaLogin = () => {
     setValid(false);
 
+    const dados = {
+      email,
+      senha
+    }
+
     // Faz a chamada do BD para validação do login
+    logar('http://localhost:8080/usuarios/login', dados)
+      .then(data => {
+        console.log(data);
+        setTimeout(() => { setValid(true) });
+        setMsg("Logado com sucesso !");
+        setClasseMsg("success");
+        setIconeMsg("check")
+
+        setTimeout(() => {
+          setRedirecionaHome(true);
+        }, 1000);
+      })
+
 
     setTimeout(() => setValid(true));
     setMsg("Email ou senha incorretos!");
@@ -82,6 +101,32 @@ export default function Login() {
     return false;
   }
 
+
+  const logar = async (url, data) => {
+    setValid(false);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const body = await response.json();
+
+      if (!response.ok) throw new Error(body.message);
+
+      return body;
+
+    } catch (error) {
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
+      setTimeout(() => { setValid(true) });
+      setMsg(error.message);
+      throw error;
+    }
+
+    return true;
+  }
 
 
 
@@ -115,6 +160,10 @@ export default function Login() {
     }
 
     return false;
+  }
+
+  if(redirecionaHome){
+    return <Navigate to="/" />
   }
 
 
