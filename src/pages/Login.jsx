@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { useMask } from '@react-input/mask';
+import {getToken, logout, verificaLogado} from '../config/auth';
 
 
 /**
@@ -41,8 +42,11 @@ export default function Login() {
    * @initial
    */
 
-  // useEffect(()=>{
-  // }, []);
+  useEffect(()=>{
+    if(verificaLogado()){
+      setRedirecionaHome(true);
+    }
+  }, [redirecionaHome]);
 
   /**
    * Executa ao clicar no botão de LOGIN (Inicia o SUBMIT do form)
@@ -51,7 +55,7 @@ export default function Login() {
    */
   const handleLogin = (e) => {
     e.preventDefault();
-
+  
     if (validaInputs()) {
       return false;
     }
@@ -80,7 +84,8 @@ export default function Login() {
     // Faz a chamada do BD para validação do login
     logar('http://localhost:8080/usuarios/login', dados)
       .then(data => {
-        console.log(data);
+        console.log(data.token);
+        localStorage.setItem('token', data.token);
         setTimeout(() => { setValid(true) });
         setMsg("Logado com sucesso !");
         setClasseMsg("success");
