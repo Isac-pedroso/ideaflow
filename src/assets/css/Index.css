@@ -6,68 +6,69 @@ body {
     padding: 0;
     margin: 0;
 }
+
 .hero {
-  background-color: #2196f3;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
+    background-color: #2196f3;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
 }
 
 .hero-content {
-  max-width: 600px;
-  width: 100%;
+    max-width: 600px;
+    width: 100%;
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 16px;
+    font-size: 2.5rem;
+    margin-bottom: 16px;
 }
 
 .hero p {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 32px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 32px;
 }
 
 .search-form {
-  text-align: left;
+    text-align: left;
 }
 
 .search-form label {
-  display: block;
-  font-size: 1.10rem;
-  margin-bottom: 8px;
-  color: white;
+    display: block;
+    font-size: 1.10rem;
+    margin-bottom: 8px;
+    color: white;
 }
 
 .input-group {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 .input-group input {
-  flex: 1;
-  padding: 10px 12px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: none;
-  outline: none;
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    outline: none;
 }
 
 .input-group button {
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1.099rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.099rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .input-group button:hover {
-  background-color: #43a047;
+    background-color: #43a047;
 }
