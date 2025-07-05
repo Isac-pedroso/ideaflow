@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { useMask } from '@react-input/mask';
-import {getToken, logout, verificaLogado} from '../config/auth';
+import { getToken, logout, verificaLogado } from '../config/auth';
 
 
 /**
@@ -42,8 +42,8 @@ export default function Login() {
    * @initial
    */
 
-  useEffect(()=>{
-    if(verificaLogado()){
+  useEffect(() => {
+    if (verificaLogado()) {
       setRedirecionaHome(true);
     }
   }, [redirecionaHome]);
@@ -55,7 +55,7 @@ export default function Login() {
    */
   const handleLogin = (e) => {
     e.preventDefault();
-  
+
     if (validaInputs()) {
       return false;
     }
@@ -75,37 +75,75 @@ export default function Login() {
    */
   const validaLogin = () => {
     setValid(false);
+    if (tp_user === 1) {
+      console.log("AQUI - 1")
+      const dados = {
+        cnpj,
+        senha
+      }
 
-    const dados = {
-      email,
-      senha
+      // Faz a chamada do BD para validação do login
+      logar('http://localhost:8080/usuarios/login_empresa', dados)
+        .then(data => {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('id', data.id);
+          localStorage.setItem('tp_usuario', data.tp_usuario.id)
+
+          setTimeout(() => { setValid(true) });
+          setMsg("Logado com sucesso !");
+          setClasseMsg("success");
+          setIconeMsg("check")
+
+          setTimeout(() => {
+            setRedirecionaHome(true);
+          }, 1000);
+
+          return true;
+        })
+
+
+      setTimeout(() => setValid(true));
+      setMsg("Cnpj ou senha incorretos!");
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
+
+      return false;
     }
 
-    // Faz a chamada do BD para validação do login
-    logar('http://localhost:8080/usuarios/login', dados)
-      .then(data => {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('id', data.id);
-        localStorage.setItem('tp_usuario', data.tp_usuario.id)
+    if (tp_user === 2) {
+      console.log("AQUI - 2")
+      const dados = {
+        email,
+        senha
+      }
 
-        setTimeout(() => { setValid(true) });
-        setMsg("Logado com sucesso !");
-        setClasseMsg("success");
-        setIconeMsg("check")
-        
-        setTimeout(() => {
-          setRedirecionaHome(true);
-        }, 1000);
-      })
+      // Faz a chamada do BD para validação do login
+      logar('http://localhost:8080/usuarios/login', dados)
+        .then(data => {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('id', data.id);
+          localStorage.setItem('tp_usuario', data.tp_usuario.id)
+
+          setTimeout(() => { setValid(true) });
+          setMsg("Logado com sucesso !");
+          setClasseMsg("success");
+          setIconeMsg("check")
+
+          setTimeout(() => {
+            setRedirecionaHome(true);
+          }, 1000);
+
+          return true;
+        })
 
 
-    setTimeout(() => setValid(true));
-    setMsg("Email ou senha incorretos!");
-    setClasseMsg("danger");
-    setIconeMsg("triangle-exclamation")
-    // Sempre retorna que deu problema no login
-    // FALSE
-    return false;
+      setTimeout(() => setValid(true));
+      setMsg("Email ou senha incorretos!");
+      setClasseMsg("danger");
+      setIconeMsg("triangle-exclamation")
+     
+      return false;
+    }
   }
 
 
@@ -125,10 +163,7 @@ export default function Login() {
       return body;
 
     } catch (error) {
-      setClasseMsg("danger");
-      setIconeMsg("triangle-exclamation")
-      setTimeout(() => { setValid(true) });
-      setMsg(error.message);
+      console.log(error.message);
       throw error;
     }
 
@@ -169,7 +204,7 @@ export default function Login() {
     return false;
   }
 
-  if(redirecionaHome){
+  if (redirecionaHome) {
     return <Navigate to="/" />
   }
 

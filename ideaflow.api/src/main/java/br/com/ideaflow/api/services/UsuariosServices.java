@@ -36,7 +36,7 @@ public class UsuariosServices {
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getEmail(), "email");
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getNome(), "nome");
         ValidacoesUtils.validarCampoVazioString(usuariosRequesty.getSenha(), "senha");
-        if(usuariosRequesty.getTipoUsuario().getId() == 1 && usuariosRequesty.getDt_nasc() == null){
+        if(usuariosRequesty.getTipoUsuario().getId() == 2 && usuariosRequesty.getDt_nasc() == null){
             throw new RuntimeException("Preencha o campo data de nascimento!");
         }
 
@@ -75,6 +75,28 @@ public class UsuariosServices {
 
     public UsuariosResponse login(UsuariosRequesty usuario) throws Exception{
         Optional<Usuarios> resultadoBusca = usuariosRepository.findByEmail(usuario.getEmail());
+
+        if(!resultadoBusca.isPresent()){
+            throw new Exception("Usuário ou senha incorreto!");
+        }
+
+        Usuarios bd = resultadoBusca.get();
+
+        if(passwordEncoder.matches(usuario.getSenha(), bd.getSenha())){
+            UsuariosResponse response = new UsuariosResponse();
+
+            response.setEmail(bd.getEmail());
+            response.setId(bd.getId());
+            response.setToken(tokenService.gerarToken(bd));
+            response.setTp_usuario(bd.getTipoUsuario());
+
+            return response;
+        }
+
+        throw new Exception("Usuário ou senha incorreto!");
+    }
+    public UsuariosResponse loginEmpresa(UsuariosRequesty usuario) throws Exception{
+        Optional<Usuarios> resultadoBusca = usuariosRepository.findByCnpj(usuario.getCnpj());
 
         if(!resultadoBusca.isPresent()){
             throw new Exception("Usuário ou senha incorreto!");
