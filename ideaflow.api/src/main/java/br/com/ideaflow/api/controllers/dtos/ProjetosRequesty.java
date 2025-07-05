@@ -1,47 +1,23 @@
-package br.com.ideaflow.api.models;
+package br.com.ideaflow.api.controllers.dtos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import br.com.ideaflow.api.models.CategoriaDeProjeto;
+import br.com.ideaflow.api.models.StatusDeProjeto;
+import br.com.ideaflow.api.models.Usuarios;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
-public class Projetos extends EntidadeMaster{
+public class ProjetosRequesty {
 
-    @ManyToOne
-    @JoinColumn(name = "id_empresa")
-    private Usuarios empresa;
-
-    @Column(nullable = false)
     private String nm_projeto;
-
-    @Column(nullable = false)
+    private Usuarios empresa;
     private Date dt_inicio;
-
-    @Column(nullable = true)
     private Date dt_final;
-
-    @ManyToOne
-    @JoinColumn(name = "id_status")
     private StatusDeProjeto statusDeProjeto;
-
-    @Column(nullable = false)
     private String descricao;
-
-    @Column(nullable = true)
     private int id_cidade;
-
-    @ManyToOne
-    @JoinColumn(name = "id_categoria")
     private CategoriaDeProjeto categoriaDeProjeto;
-
-    @Column(nullable = false)
     private int ativo;
-
-    @Column(nullable = false)
     private LocalDateTime dt_cadastro;
 
     public String getNm_projeto() {

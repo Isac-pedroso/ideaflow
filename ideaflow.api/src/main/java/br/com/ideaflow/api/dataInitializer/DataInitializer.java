@@ -2,8 +2,10 @@ package br.com.ideaflow.api.dataInitializer;
 
 import br.com.ideaflow.api.models.CategoriaDeProjeto;
 import br.com.ideaflow.api.models.StatusDeProjeto;
+import br.com.ideaflow.api.models.TipoUsuario;
 import br.com.ideaflow.api.repositorys.CategoriaDeProjetoRepository;
 import br.com.ideaflow.api.repositorys.StatusDeProjetoRepository;
+import br.com.ideaflow.api.repositorys.TipoUsuarioRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,9 @@ public class DataInitializer{
 
   @Autowired
   private CategoriaDeProjetoRepository categoriaDeProjetoRepository;
+
+  @Autowired
+  private TipoUsuarioRepository tipoUsuarioRepository;
 
   @PostConstruct
   public void init(){
@@ -62,6 +67,17 @@ public class DataInitializer{
         categoriaDeProjetoRepository.save(add4);
       }
     }
+    if(tipoUsuarioRepository.count() == 0){
+      if(!tipoUsuarioRepository.existsByNome("Empresa")){
+        TipoUsuario add1 = new TipoUsuario();
+        add1.setNome("Empresa");
+        tipoUsuarioRepository.save(add1);
+      }
+      if(!tipoUsuarioRepository.existsByNome("Investidor")){
+        TipoUsuario add2 = new TipoUsuario();
+        add2.setNome("Investidor");
+        tipoUsuarioRepository.save(add2);
+      }
+    }
   }
-
 }

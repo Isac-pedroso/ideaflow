@@ -61,7 +61,6 @@ export default function Registrar() {
       senha,
       tipoUsuario: { id: tp_user }
     }
-    console.log(dados)
 
     registrar("http://localhost:8080/usuarios/cadastrar", dados)
       .then(data => {
