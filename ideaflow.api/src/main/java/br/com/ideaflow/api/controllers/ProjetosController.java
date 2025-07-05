@@ -2,6 +2,7 @@ package br.com.ideaflow.api.controllers;
 
 import br.com.ideaflow.api.controllers.dtos.ProjetosRequesty;
 import br.com.ideaflow.api.models.CategoriaDeProjeto;
+import br.com.ideaflow.api.models.Projetos;
 import br.com.ideaflow.api.models.StatusDeProjeto;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.services.ProjetosService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,6 +37,15 @@ public class ProjetosController {
             Map<String, String> response = new HashMap<>();
             response.put("message", e.getMessage().toString());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<Projetos>> listar(){
+        try{
+            return ResponseEntity.ok(projetosService.listar());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

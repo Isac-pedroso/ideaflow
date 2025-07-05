@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ProjetosService {
@@ -46,5 +47,11 @@ public class ProjetosService {
         projetoPersist.setDt_cadastro(dataHoraAtual);
 
         return projetosRepository.save(projetoPersist);
+    }
+
+
+    public List<Projetos> listar(){
+        List<Projetos> response = projetosRepository.getProjetos();
+        return response;
     }
 }
