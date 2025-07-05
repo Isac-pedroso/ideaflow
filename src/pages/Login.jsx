@@ -84,9 +84,10 @@ export default function Login() {
     // Faz a chamada do BD para validação do login
     logar('http://localhost:8080/usuarios/login', dados)
       .then(data => {
-
         localStorage.setItem('token', data.token);
         localStorage.setItem('id', data.id);
+        localStorage.setItem('tp_usuario', data.tp_usuario.id)
+        
         setTimeout(() => { setValid(true) });
         setMsg("Logado com sucesso !");
         setClasseMsg("success");

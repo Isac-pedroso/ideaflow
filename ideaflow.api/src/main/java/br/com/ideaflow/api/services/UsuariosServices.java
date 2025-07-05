@@ -88,6 +88,7 @@ public class UsuariosServices {
             response.setEmail(bd.getEmail());
             response.setId(bd.getId());
             response.setToken(tokenService.gerarToken(bd));
+            response.setTp_usuario(bd.getTipoUsuario());
 
             return response;
         }
