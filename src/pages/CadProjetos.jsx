@@ -36,12 +36,14 @@ const CadProjetos = () => {
         }
     }
     
-    
+
     useEffect(() => {
         responseAreas("http://localhost:8080/statusProjeto/listar")
             .then(dados => {
                 setStatus(dados)
             })
+
+        
     }, [])
     
     return (
