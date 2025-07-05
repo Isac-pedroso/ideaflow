@@ -87,12 +87,12 @@ export default function Login() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('id', data.id);
         localStorage.setItem('tp_usuario', data.tp_usuario.id)
-        
+
         setTimeout(() => { setValid(true) });
         setMsg("Logado com sucesso !");
         setClasseMsg("success");
         setIconeMsg("check")
-
+        
         setTimeout(() => {
           setRedirecionaHome(true);
         }, 1000);

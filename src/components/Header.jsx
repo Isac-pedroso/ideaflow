@@ -23,8 +23,8 @@ export default function Header() {
             <nav class="navbar">
                 <ul>
                     <li><Link to="/">Página Inicial</Link></li>
-                    <li><Link to="/cadProjetos">Cadastrar Projeto</Link></li>
-                    <li><a href="#">Buscar Projetos</a></li>
+                    { verificaLogado() && localStorage.getItem('tp_usuario') === "1" && (<> <li><Link to="/cadProjetos">Cadastrar Projeto</Link></li> </>)}
+                    { verificaLogado() && localStorage.getItem('tp_usuario') === "2" && (<> <li><Link to="/">Meus investimentos</Link></li> </>)}
                     { verificaLogado() && (<><li><a onClick={handleDeslogar} className='deslogar'>Deslogar</a></li></>)}
                     { !verificaLogado() && (<><li><Link to="/login">Login/Registro</Link></li></>)} 
                 </ul>
