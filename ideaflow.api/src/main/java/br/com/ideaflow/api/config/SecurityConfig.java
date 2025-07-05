@@ -61,6 +61,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuarios/cadastrar").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/statusProjeto/listar").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

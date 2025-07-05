@@ -1,8 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header';
 import '../assets/css/CadProjeto.css';
 
 const CadProjetos = () => {
+
+    const [msg, setMsg] = useState("");
+    const [valid, setValid] = useState(false);
+    const [classeMsg, setClasseMsg] = useState("");
+    const [iconeMsg, setIconeMsg] = useState("");
+    const [status, setStatus] = useState([]);
+
+
+    
+    const responseAreas = async (url) => {
+        setValid(false);
+        try {
+            
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            
+            const body = await response.json();
+            
+            if (!response.ok) throw new Error("Error");
+            
+            return body;
+            
+        } catch (error) {
+            setClasseMsg("danger");
+            setIconeMsg("triangle-exclamation")
+            setTimeout(() => { setValid(true) });
+            setMsg("Erro ao retornar os Status");
+            throw error;
+        }
+    }
+    
+    
+    useEffect(() => {
+        responseAreas("http://localhost:8080/statusProjeto/listar")
+            .then(dados => {
+                setStatus(dados)
+            })
+    }, [])
+    
     return (
         <>
             < Header />
@@ -12,6 +53,7 @@ const CadProjetos = () => {
                     <div className="form-group">
                         <label htmlFor="project-name">Nome do Projeto</label>
                         <input
+                            style={{ width: "96%" }}
                             type="text"
                             id="project-name"
                             name="project-name"
@@ -24,10 +66,9 @@ const CadProjetos = () => {
                         <label htmlFor="area">Área</label>
                         <select id="area" name="area" required defaultValue="">
                             <option value="" disabled>Selecione uma área</option>
-                            <option value="Saúde">Saúde</option>
-                            <option value="Educação">Educação</option>
-                            <option value="Tecnologia">Tecnologia</option>
-                            <option value="Agricultura">Agricultura</option>
+                            {status.map(dados => (
+                                <option key={dados.id} value={dados.id}>{dados.nome}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -35,26 +76,22 @@ const CadProjetos = () => {
                         <label htmlFor="stage">Estágio</label>
                         <select id="stage" name="stage" required defaultValue="">
                             <option value="" disabled>Selecione o estágio</option>
-                            <option value="Ideia">Ideia</option>
-                            <option value="Protótipo">Protótipo</option>
-                            <option value="Produto Lançado">Produto Lançado</option>
+
                         </select>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="location">Localidade</label>
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            placeholder="Digite a localidade"
-                            required
-                        />
+                        <label htmlFor="stage">Cidade</label>
+                        <select id="stage" name="stage" required defaultValue="">
+                            <option value="" disabled>Selecione a cidade</option>
+
+                        </select>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="description">Descrição</label>
                         <textarea
+                            style={{ width: "96%" }}
                             id="description"
                             name="description"
                             rows="4"

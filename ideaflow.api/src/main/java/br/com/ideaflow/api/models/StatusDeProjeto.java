@@ -8,7 +8,13 @@ public class StatusDeProjeto extends EntidadeMaster{
     @Column(nullable = false)
     private String nome;
 
-    public StatusDeProjeto(String nome){
+
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
 }

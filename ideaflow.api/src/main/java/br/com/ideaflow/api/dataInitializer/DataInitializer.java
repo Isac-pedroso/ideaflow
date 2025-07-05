@@ -22,13 +22,19 @@ public class DataInitializer{
     // Grava os status de projeto
     if(statusDeProjetoRepository.count() == 0){
       if(!statusDeProjetoRepository.existsByNome("Ideia")){
-        statusDeProjetoRepository.save(new StatusDeProjeto("Ideia"));
+        StatusDeProjeto add1 = new StatusDeProjeto();
+        add1.setNome("Ideia");
+        statusDeProjetoRepository.save(add1);
       }
       if(!statusDeProjetoRepository.existsByNome("Protótipo")){
-        statusDeProjetoRepository.save(new StatusDeProjeto("Protótipo"));
+        StatusDeProjeto add2 = new StatusDeProjeto();
+        add2.setNome("Protótipo");
+        statusDeProjetoRepository.save(add2);
       }
       if(!statusDeProjetoRepository.existsByNome("Projeto lançado")){
-        statusDeProjetoRepository.save(new StatusDeProjeto("Projeto lançado"));
+        StatusDeProjeto add3 = new StatusDeProjeto();
+        add3.setNome("Projeto lançado");
+        statusDeProjetoRepository.save(add3);
       }
     }
 
@@ -36,16 +42,24 @@ public class DataInitializer{
     // Grava as categorias de projeto
     if(categoriaDeProjetoRepository.count() == 0){
       if(!categoriaDeProjetoRepository.existsByNome("Saúde")){
-        categoriaDeProjetoRepository.save(new CategoriaDeProjeto("Saúde"));
+        CategoriaDeProjeto add1 = new CategoriaDeProjeto();
+        add1.setNome("Saúde");
+        categoriaDeProjetoRepository.save(add1);
       }
       if(!categoriaDeProjetoRepository.existsByNome("Educação")){
-        categoriaDeProjetoRepository.save(new CategoriaDeProjeto("Educação"));
+        CategoriaDeProjeto add2 = new CategoriaDeProjeto();
+        add2.setNome("Educação");
+        categoriaDeProjetoRepository.save(add2);
       }
       if(!categoriaDeProjetoRepository.existsByNome("Tecnologia")){
-        categoriaDeProjetoRepository.save(new CategoriaDeProjeto("Tecnologia"));
+        CategoriaDeProjeto add3 = new CategoriaDeProjeto();
+        add3.setNome("Tecnologia");
+        categoriaDeProjetoRepository.save(add3);
       }
       if(!categoriaDeProjetoRepository.existsByNome("Agricultura")){
-        categoriaDeProjetoRepository.save(new CategoriaDeProjeto("Agricultura"));
+        CategoriaDeProjeto add4 = new CategoriaDeProjeto();
+        add4.setNome("Agricultura");
+        categoriaDeProjetoRepository.save(add4);
       }
     }
   }
