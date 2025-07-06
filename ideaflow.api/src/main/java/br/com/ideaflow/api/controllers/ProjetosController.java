@@ -41,11 +41,14 @@ public class ProjetosController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<List<Projetos>> listar(){
+    public ResponseEntity<?> listar(){
         try{
             return ResponseEntity.ok(projetosService.listar());
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(null);
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("erro","Erro: "+e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
 

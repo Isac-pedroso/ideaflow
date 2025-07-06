@@ -1,0 +1,5 @@
+.cardProjeto {
+    max-height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+}

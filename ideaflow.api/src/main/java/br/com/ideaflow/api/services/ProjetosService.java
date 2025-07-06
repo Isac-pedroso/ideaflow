@@ -1,5 +1,6 @@
 package br.com.ideaflow.api.services;
 
+import br.com.ideaflow.api.controllers.dtos.ProjetosProjecao;
 import br.com.ideaflow.api.controllers.dtos.ProjetosRequesty;
 import br.com.ideaflow.api.models.CategoriaDeProjeto;
 import br.com.ideaflow.api.models.Projetos;
@@ -50,8 +51,8 @@ public class ProjetosService {
     }
 
 
-    public List<Projetos> listar(){
-        List<Projetos> response = projetosRepository.getProjetos();
+    public List<ProjetosProjecao> listar(){
+        List<ProjetosProjecao> response = projetosRepository.getProjetos();
         return response;
     }
 }

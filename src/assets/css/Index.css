@@ -72,3 +72,13 @@ body {
 .input-group button:hover {
     background-color: #43a047;
 }
+
+.listagemProduto {
+    height: 500px;
+    display: flex;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 50px;
+    justify-content: center;
+    flex-wrap: wrap;
+}

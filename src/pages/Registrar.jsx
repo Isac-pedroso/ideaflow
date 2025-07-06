@@ -156,7 +156,7 @@ export default function Registrar() {
     <>
       <Header />
       <section className="login-section">
-        <div className="login-container" style={{ marginTop: "100px" }}>
+        <div className="login-container" style={{ marginTop: "80px" , width: "400px"}}>
           <h1>Registro</h1>
           <select name="tp_user" className='select-tp-user' id="tp_user" value={tp_user} onChange={(e) => { setTpUser(Number(e.target.value)); }}>
             <option value={1} >Empresa</option>
