@@ -159,7 +159,7 @@ const CadProjetos = () => {
 
 
     // Se usuario não estiver logado
-    if (!verificaLogado()) {
+    if (!verificaLogado() || localStorage.getItem("tp_usuario") === "2") {
         return <Navigate to="/login" />;
     }
 
