@@ -29,7 +29,7 @@ export default function Login() {
   const [msg, setMsg] = useState("");
   const [tp_user, setTpUser] = useState(2);
   const [valid, setValid] = useState(false);
-  const inputRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
+  const inputRef = useMask({ mask: '__.__.__/____-__', replacement: { _: /\d/ } });
 
   const [classeMsg, setClasseMsg] = useState("");
   const [iconeMsg, setIconeMsg] = useState("");

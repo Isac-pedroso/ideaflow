@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 
 
 /**
@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
  */
 import Header from '../components/Header';
 import CardProjeto from '../components/CardProjeto';
+import ModalProjeto from '../components/ModalProjeto';
 
 
 /**
@@ -21,21 +22,54 @@ import { requestPrivado } from '../utils/request';
 export default function Home() {
 
     const [projetosArray, setProjetosArray] = useState([]);
+    const [status, setStatus] = useState([]);
+    const [categorias, setCategorias] = useState([]);
 
+    const [statusFiltro, setStatusFiltro] = useState("");
+    const [categoriaFiltro, setCategoriaFiltro] = useState("");
 
-    useEffect(()=>{
+    const [projetoSelecionado, setProjetoSelecionado] = useState(null);
 
-        const fetchProjetos = async ()=>{
+    const abrirModal = (projeto)=>{
+        setProjetoSelecionado(projeto);
+    }
+
+    const fecharModal = ()=>{
+        setProjetoSelecionado(null);
+    }
+
+    useEffect(() => {
+
+        const fetchProjetos = async () => {
             const response = await requestPrivado("http://localhost:8080/projetos/listar", "", "GET");
-            console.log(response)
-            if(response.status){
+            if (response.status) {
                 setProjetosArray(response.body);
-            }else{
+            } else {
                 console.log("Erro ao retornar projetos")
             }
         };
 
+        // Consulta no banco de dados todos os status
+        // Passa o conteudo retornado do banco para dentro do array de Status
+        const fetchStatus = async () => {
+            const response = await requestPrivado("http://localhost:8080/statusProjeto/listar", "", "GET");
+            if (response.status) {
+                setStatus(response.body);
+            }
+        }
+
+        // Consulta no banco de dados todas as categorias
+        // Passa o conteudo retornado do banco para dentro do array de Categorias
+        const fetchCategorias = async () => {
+            const response = await requestPrivado("http://localhost:8080/categoria_projeto/listar", "", "GET");
+            if (response.status) {
+                setCategorias(response.body);
+            }
+        }
+
         fetchProjetos();
+        fetchCategorias();
+        fetchStatus();
 
 
     }, []);
@@ -59,14 +93,45 @@ export default function Home() {
                             />
                             <button type="button">Pesquisar</button>
                         </div>
+                        <div className='filtros-projetos-home'>
+                            <div className="form-group" style={{marginLeft: "0px"}}>
+                                <label htmlFor="status">Status</label>
+                                <select id="status" name="status" required defaultValue="" onChange={(e) => setStatusFiltro(e.target.value)}>
+                                    <option value="" disabled>Selecione o status</option>
+                                    {status.map(dados => (
+                                        <option key={dados.id} value={dados.id}>{dados.nome}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="area">Categoria</label>
+                                <select id="categoria" name="categoria" required defaultValue="" onChange={(e) => setCategoriaFiltro(e.target.value)}>
+                                    <option value="" disabled>Selecione uma área</option>
+                                    {categorias.map(dados => (
+                                        <option key={dados.id} value={dados.id}>{dados.nome}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="cidade">Cidade</label>
+                                <select id="stage" name="cidade" required defaultValue="">
+                                    <option value="" disabled>Selecione a cidade</option>
+                                    <option value="1">TESTE</option>
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </section>
             <section className='listagemProduto'>
-                {projetosArray.map(dados =>(
-                    <CardProjeto key={dados.id} dados={dados} />    
+                {projetosArray.length === 0 && (<><h1>Nenhum registro encontrado!</h1></>)}
+                {projetosArray.map(dados => (
+                    <CardProjeto key={dados.id} dados={dados} showModal={() => abrirModal(dados)} />
                 ))}
             </section>
+            {projetoSelecionado && (
+                < ModalProjeto projeto={projetoSelecionado} closeModal={() => fecharModal()}/>
+            )}
         </>
     )
 }

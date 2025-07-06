@@ -24,6 +24,7 @@ export default function Header() {
                 <ul>
                     <li><Link to="/">Página Inicial</Link></li>
                     { verificaLogado() && localStorage.getItem('tp_usuario') === "1" && (<> <li><Link to="/cadProjetos">Cadastrar Projeto</Link></li> </>)}
+                    { verificaLogado() && localStorage.getItem('tp_usuario') === "1" && (<> <li><Link to="/empresaProjetos">Meus Projetos</Link></li> </>)}
                     { verificaLogado() && localStorage.getItem('tp_usuario') === "2" && (<> <li><Link to="/">Meus investimentos</Link></li> </>)}
                     { verificaLogado() && (<><li><a onClick={handleDeslogar} className='deslogar'>Deslogar</a></li></>)}
                     { !verificaLogado() && (<><li><Link to="/login">Login/Registro</Link></li></>)} 

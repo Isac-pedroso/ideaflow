@@ -30,7 +30,6 @@ body {
 .hero p {
     font-size: 1.1rem;
     font-weight: 500;
-    margin-bottom: 32px;
 }
 
 .search-form {
@@ -81,4 +80,21 @@ body {
     padding-top: 50px;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+.filtros-projetos-home {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.filtros-projetos-home .form-group {
+    margin-left: 5px;
+}
+
+@media screen and (max-width: 600px) {
+    .hero-content p {
+        display: none;
+    }
 }

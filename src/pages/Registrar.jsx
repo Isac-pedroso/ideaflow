@@ -24,14 +24,14 @@ export default function Registrar() {
   const [cnpj, setCnpj] = useState("");
   const [senha, setSenha] = useState("");
   const [confirm_senha, setConfirmSenha] = useState("");
-  const [dt_nascimento, setDtNascimento] = useState("");
+  const [dt_nasc, setDtNascimento] = useState("");
 
   const [tp_user, setTpUser] = useState(2);
 
   const [redirecionaLogin, setRedirecionaLogin] = useState(false);
   const [msg, setMsg] = useState("");
   const [valid, setValid] = useState(false);
-  const inputRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
+  const inputRef = useMask({ mask: '__.__.__/____-__', replacement: { _: /\d/ } });
 
   const [classeMsg, setClasseMsg] = useState("");
   const [iconeMsg, setIconeMsg] = useState("");
@@ -57,7 +57,7 @@ export default function Registrar() {
       nome,
       cnpj,
       email,
-      dt_nascimento,
+      dt_nasc,
       senha,
       tipoUsuario: { id: tp_user }
     }
@@ -115,7 +115,7 @@ export default function Registrar() {
       setMsg("Campo nome vazio!");
       return true;
     }
-    if (dt_nascimento === "" && tp_user === 2) {
+    if (dt_nasc === "" && tp_user === 2) {
       setClasseMsg("danger");
       setIconeMsg("triangle-exclamation")
       setMsg("Campo data de nascimento vazio!");

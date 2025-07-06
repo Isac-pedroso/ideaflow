@@ -82,6 +82,10 @@ public class UsuariosServices {
 
         Usuarios bd = resultadoBusca.get();
 
+        if(bd.getTipoUsuario().getId() == 1){
+            throw new Exception("Usuário ou senha incorreto!");
+        }
+
         if(passwordEncoder.matches(usuario.getSenha(), bd.getSenha())){
             UsuariosResponse response = new UsuariosResponse();
 

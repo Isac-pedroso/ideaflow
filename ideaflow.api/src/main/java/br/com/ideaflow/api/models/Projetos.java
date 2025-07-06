@@ -28,7 +28,7 @@ public class Projetos extends EntidadeMaster{
     @JoinColumn(name = "id_status")
     private StatusDeProjeto statusDeProjeto;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String descricao;
 
     @Column(nullable = true)
