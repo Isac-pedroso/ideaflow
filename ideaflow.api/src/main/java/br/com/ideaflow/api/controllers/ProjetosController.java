@@ -52,4 +52,16 @@ public class ProjetosController {
         }
     }
 
+    @PostMapping("/listarFiltro")
+    public ResponseEntity<?> listarFiltro(@RequestBody ProjetosRequesty projeto){
+        try{
+            return ResponseEntity.ok(projetosService.listarFiltro(projeto));
+        }catch (Exception e){
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("erro","Erro: "+e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
 }

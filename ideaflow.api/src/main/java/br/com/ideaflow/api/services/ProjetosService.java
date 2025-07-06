@@ -55,4 +55,19 @@ public class ProjetosService {
         List<ProjetosProjecao> response = projetosRepository.getProjetos();
         return response;
     }
+
+    public List<ProjetosProjecao> listarFiltro(ProjetosRequesty projeto){
+        Long id_status = null;
+        Long id_categoria = null;
+
+        if(projeto.getStatusDeProjeto() != null &&projeto.getStatusDeProjeto().getId() != null ){
+            id_status = projeto.getStatusDeProjeto().getId();
+        }
+        if(projeto.getCategoriaDeProjeto() != null &&projeto.getCategoriaDeProjeto().getId() != null ){
+            id_categoria = projeto.getCategoriaDeProjeto().getId();
+        }
+
+        List<ProjetosProjecao> response = projetosRepository.getProjetosFiltro(projeto.getNm_projeto(), id_status, id_categoria);
+        return response;
+    }
 }
