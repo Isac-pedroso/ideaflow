@@ -76,4 +76,44 @@ public class ProjetosService {
         List<ProjetosProjecao> response = projetosRepository.getTodosProjetosPorIdEmpresa(id);
         return response;
     }
+
+    public Projetos buscarProjeto(Long id) throws Exception{
+
+        Optional<Projetos> response = projetosRepository.findById(id);
+
+        if(!response.isPresent()){
+            throw new Exception("Projeto não encontrado na base de dados!");
+        }
+
+        return response.get();
+    }
+
+    public Projetos editar(Long id,ProjetosRequesty projeto){
+        Usuarios empresa = new Usuarios();
+        empresa.setId(projeto.getEmpresa().getId());
+
+        StatusDeProjeto status = new StatusDeProjeto();
+        status.setId(projeto.getStatusDeProjeto().getId());
+
+        CategoriaDeProjeto categoria = new CategoriaDeProjeto();
+        categoria.setId(projeto.getCategoriaDeProjeto().getId());
+
+        LocalDateTime dataHoraAtual = LocalDateTime.now();
+
+        Projetos projetoPersist = new Projetos();
+
+        projetoPersist.setNm_projeto(projeto.getNm_projeto());
+        projetoPersist.setEmpresa(empresa);
+        projetoPersist.setDt_inicio(projeto.getDt_inicio());
+        projetoPersist.setDt_final(projeto.getDt_final());
+        projetoPersist.setStatusDeProjeto(status);
+        projetoPersist.setDescricao(projeto.getDescricao());
+        projetoPersist.setId_cidade(projeto.getId_cidade());
+        projetoPersist.setCategoriaDeProjeto(categoria);
+        projetoPersist.setAtivo(1);
+        projetoPersist.setDt_cadastro(dataHoraAtual);
+        projetoPersist.setId(id);
+
+        return projetosRepository.save(projetoPersist);
+    }
 }

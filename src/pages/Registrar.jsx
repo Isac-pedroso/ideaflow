@@ -31,7 +31,7 @@ export default function Registrar() {
   const [redirecionaLogin, setRedirecionaLogin] = useState(false);
   const [msg, setMsg] = useState("");
   const [valid, setValid] = useState(false);
-  const inputRef = useMask({ mask: '__.__.__/____-__', replacement: { _: /\d/ } });
+  const inputRef = useMask({ mask: '__.___.___/____-__', replacement: { _: /\d/ } });
 
   const [classeMsg, setClasseMsg] = useState("");
   const [iconeMsg, setIconeMsg] = useState("");
@@ -174,7 +174,7 @@ export default function Registrar() {
             </>)}
             {tp_user == 1 && (<>
               <label htmlFor="cnpj">CNPJ:</label>
-              <input ref={inputRef} type="text" id="cnpj" name="cnpj" placeholder="000.000.000-00" onChange={(e) => setCnpj(e.target.value)} />
+              <input ref={inputRef} type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange={(e) => setCnpj(e.target.value)} />
             </>)}
 
             <label htmlFor="password">Senha:</label>

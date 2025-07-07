@@ -6,6 +6,7 @@ import br.com.ideaflow.api.models.Projetos;
 import br.com.ideaflow.api.models.StatusDeProjeto;
 import br.com.ideaflow.api.models.Usuarios;
 import br.com.ideaflow.api.services.ProjetosService;
+import com.sun.jdi.event.ExceptionEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -70,6 +71,27 @@ public class ProjetosController {
             return ResponseEntity.ok(projetosService.listarProjetosEmpresa(id));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/buscarProjeto/{id}")
+    public ResponseEntity<?> buscarProjeto(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(projetosService.buscarProjeto(id));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> editarProjeto(@PathVariable Long id,@RequestBody ProjetosRequesty projeto){
+        try{
+            return ResponseEntity.ok(projetosService.editar(id,projeto));
+        }catch(Exception e){
+            e.printStackTrace();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", e.getMessage().toString());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 

@@ -29,7 +29,7 @@ export default function Login() {
   const [msg, setMsg] = useState("");
   const [tp_user, setTpUser] = useState(2);
   const [valid, setValid] = useState(false);
-  const inputRef = useMask({ mask: '__.__.__/____-__', replacement: { _: /\d/ } });
+  const inputRef = useMask({ mask: '__.___.___/____-__', replacement: { _: /\d/ } });
 
   const [classeMsg, setClasseMsg] = useState("");
   const [iconeMsg, setIconeMsg] = useState("");
@@ -74,75 +74,76 @@ export default function Login() {
    * @returns
    */
   const validaLogin = () => {
-    setValid(false);
-    if (tp_user === 1) {
-      console.log("AQUI - 1")
-      const dados = {
-        cnpj,
-        senha
+    try {
+      setValid(false);
+      if (tp_user === 1) {
+        console.log("AQUI - 1")
+        const dados = {
+          cnpj,
+          senha
+        }
+
+        // Faz a chamada do BD para validação do login
+        logar('http://localhost:8080/usuarios/login_empresa', dados)
+          .then(data => {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('id', data.id);
+            localStorage.setItem('tp_usuario', data.tp_usuario.id)
+
+            setTimeout(() => { setValid(true) });
+            setMsg("Logado com sucesso !");
+            setClasseMsg("success");
+            setIconeMsg("check")
+
+            setTimeout(() => {
+              setRedirecionaHome(true);
+            }, 1000);
+
+            return true;
+          })
+
+
+        setTimeout(() => setValid(true));
+        setMsg("Cnpj ou senha incorretos!");
+        setClasseMsg("danger");
+        setIconeMsg("triangle-exclamation")
+
+        return false;
       }
 
-      // Faz a chamada do BD para validação do login
-      logar('http://localhost:8080/usuarios/login_empresa', dados)
-        .then(data => {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('id', data.id);
-          localStorage.setItem('tp_usuario', data.tp_usuario.id)
+      if (tp_user === 2) {
+        const dados = {
+          email,
+          senha
+        }
 
-          setTimeout(() => { setValid(true) });
-          setMsg("Logado com sucesso !");
-          setClasseMsg("success");
-          setIconeMsg("check")
+        // Faz a chamada do BD para validação do login
+        logar('http://localhost:8080/usuarios/login', dados)
+          .then(data => {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('id', data.id);
+            localStorage.setItem('tp_usuario', data.tp_usuario.id)
 
-          setTimeout(() => {
-            setRedirecionaHome(true);
-          }, 1000);
+            setTimeout(() => { setValid(true) });
+            setMsg("Logado com sucesso !");
+            setClasseMsg("success");
+            setIconeMsg("check")
 
-          return true;
-        })
+            setTimeout(() => {
+              setRedirecionaHome(true);
+            }, 1000);
 
+            return true;
+          })
 
-      setTimeout(() => setValid(true));
-      setMsg("Cnpj ou senha incorretos!");
-      setClasseMsg("danger");
-      setIconeMsg("triangle-exclamation")
-
-      return false;
-    }
-
-    if (tp_user === 2) {
-      console.log("AQUI - 2")
-      const dados = {
-        email,
-        senha
+        setTimeout(() => setValid(true));
+        setMsg("Email ou senha incorretos!");
+        setClasseMsg("danger");
+        setIconeMsg("triangle-exclamation")
+        throw new Error("Usuario ou senha incorretos!");
       }
-
-      // Faz a chamada do BD para validação do login
-      logar('http://localhost:8080/usuarios/login', dados)
-        .then(data => {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('id', data.id);
-          localStorage.setItem('tp_usuario', data.tp_usuario.id)
-
-          setTimeout(() => { setValid(true) });
-          setMsg("Logado com sucesso !");
-          setClasseMsg("success");
-          setIconeMsg("check")
-
-          setTimeout(() => {
-            setRedirecionaHome(true);
-          }, 1000);
-
-          return true;
-        })
-
-
-      setTimeout(() => setValid(true));
-      setMsg("Email ou senha incorretos!");
-      setClasseMsg("danger");
-      setIconeMsg("triangle-exclamation")
-     
-      return false;
+    }catch(Error){
+      console.log("Error");
     }
   }
 
@@ -222,7 +223,7 @@ export default function Login() {
           {tp_user == 1 &&
             <form onSubmit={handleLogin}>
               <label htmlFor="cnpj">CNPJ:</label>
-              <input ref={inputRef} type="text" id="cnpj" name="cnpj" placeholder="000.000.000-00" onChange={(e) => setCnpj(e.target.value)} />
+              <input ref={inputRef} type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00" onChange={(e) => setCnpj(e.target.value)} />
 
               <label htmlFor="password">Senha:</label>
               <input type="password" id="password" name="password" placeholder="Digite sua senha" onChange={(e) => setSenha(e.target.value)} />
