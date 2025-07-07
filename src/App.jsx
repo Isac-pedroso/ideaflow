@@ -7,6 +7,7 @@ import Registrar from "./pages/Registrar";
 import Home from "./pages/Home";
 import CadProjetos from "./pages/CadProjetos";
 import MeusProjetos from "./pages/MeusProjetos";
+import EditarProjeto from "./pages/EditarProjeto";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" element={< Login />}></Route>
       <Route path="/cadProjetos" element={< CadProjetos />}></Route>
       <Route path="/meusProjetos" element={< MeusProjetos />}></Route>
+      <Route path="/editar-projeto/:id" element={< EditarProjeto />} ></Route>
     </Routes>
   )
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjetosService {
@@ -68,6 +69,11 @@ public class ProjetosService {
         }
 
         List<ProjetosProjecao> response = projetosRepository.getProjetosFiltro(projeto.getNm_projeto(), id_status, id_categoria);
+        return response;
+    }
+
+    public List<ProjetosProjecao> listarProjetosEmpresa(Long id) throws Exception{
+        List<ProjetosProjecao> response = projetosRepository.getTodosProjetosPorIdEmpresa(id);
         return response;
     }
 }

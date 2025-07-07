@@ -64,4 +64,13 @@ public class ProjetosController {
         }
     }
 
+    @GetMapping("/listarProjetosEmpresa/{id}")
+    public ResponseEntity<?> listarProjetosEmpresa(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(projetosService.listarProjetosEmpresa(id));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

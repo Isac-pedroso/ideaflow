@@ -25,13 +25,16 @@ export default function MeusProjetos() {
     useEffect(() => {
         const fetchProjetos = async () => {
 
-            const response = await requestPrivado("http://localhost:8080/projetos/listarMeusProjetos?id=" + localStorage.getItem("id"), "", "GET");
+            const response = await requestPrivado("http://localhost:8080/projetos/listarProjetosEmpresa/" + localStorage.getItem("id"), "", "GET");
+            console.log(response)
             if (response.status) {
                 setProjetosArray(response.body);
             } else {
                 console.log("Erro ao retornar projetos")
             }
         };
+
+        fetchProjetos();
     }, [])
 
     // Se usuario não estiver logado
@@ -46,10 +49,15 @@ export default function MeusProjetos() {
     return (
         <>
             <Header />
+            <section className="hero" style={{padding: "20px 0px 0px 0px"}}>
+                <div className="hero-content">
+                    <h1>Meus projetos</h1>
+                </div>
+            </section>
             <section className='listagemProduto'>
                 {projetosArray.length === 0 && (<><h1>Nenhum registro encontrado!</h1></>)}
                 {projetosArray.map(dados => (
-                    <CardProjeto key={dados.id} dados={dados} showModal={() => abrirModal(dados)} />
+                    <CardProjeto key={dados.id} dados={dados} showModal={() => abrirModal(dados)} meusProjetos={true} />
                 ))}
             </section>
             {projetoSelecionado && (

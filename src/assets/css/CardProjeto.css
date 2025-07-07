@@ -3,3 +3,9 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.descricaoProjeto {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+}
