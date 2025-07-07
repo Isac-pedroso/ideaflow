@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Registrar from "./pages/Registrar";
 import Home from "./pages/Home";
 import CadProjetos from "./pages/CadProjetos";
+import MeusProjetos from "./pages/MeusProjetos";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/registrar" element={< Registrar />}></Route>
       <Route path="/login" element={< Login />}></Route>
       <Route path="/cadProjetos" element={< CadProjetos />}></Route>
+      <Route path="/meusProjetos" element={< MeusProjetos />}></Route>
     </Routes>
   )
 }
